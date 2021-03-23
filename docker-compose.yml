@@ -1,0 +1,42 @@
+version: "3.7"
+
+volumes:
+  postgres:
+  pgadmin:
+
+services:
+
+  php-fpm:
+    build: ./
+    ports:
+      - 4000:8000
+    volumes:
+      - ./:/var/www/html
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      - POSTGRES_DB=symfPostgres
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=Alli
+
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 54321:5432
+    restart: always
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: Alli
+    restart: always
+
+
